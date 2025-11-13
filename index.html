@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurea System</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #000; color: #fff; min-height: 100vh; }
+        .header { text-align: center; padding: 2rem; background: linear-gradient(#000, #1a1a1a); border-bottom: 2px solid #d4af37; }
+        h1 { font-size: 2.8rem; background: linear-gradient(to right, #f4d03f, #d4af37); -webkit-background-clip: text; color: transparent; }
+        .subtitle { color: #f4d03f; font-size: 1.1rem; letter-spacing: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .mode-btn { background: #1a1a1a; border: 2px solid #d4af37; color: #d4af37; padding: 1.5rem; border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .mode-btn:hover { background: #d4af37; color: #000; transform: translateY(-3px); }
+        .mode-btn.active { background: #f4d03f; color: #000; font-weight: bold; }
+        #inputSection { display: none; background: #1a1a1a; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; }
+        #inputTitle { color: #d4af37; text-align: center; margin-bottom: 1rem; }
+        #numberGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 0.5rem; }
+        .num-input { background: #000; border: 1px solid #d4af37; color: #fff; text-align: center; padding: 0.8rem; border-radius: 8px; font-size: 1.1rem; }
+        .num-input:focus { outline: none; box-shadow: 0 0 10px #d4af37; }
+        #generateBtn { background: #f4d03f; color: #000; border: none; padding: 1rem 2rem; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 1.5rem auto; width: fit-content; }
+        #generateBtn:hover { transform: scale(1.05); }
+        #loading { text-align: center; display: none; color: #d4af37; margin: 1rem 0; }
+        #results { display: none; }
+        .result-card { background: #1a1a1a; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+        .balls { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+        .ball { background: #f4d03f; color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .export-btn { background: #d4af37; color: #000; border: none; padding: 0.5rem 1rem; margin: 0.5rem; border-radius: 50px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AUREA SYSTEM</h1>
+        <p class="subtitle">Optimización Matemática Avanzada</p>
+    </div>
+    <div class="container">
+        <div class="modes">
+            <button class="mode-btn" onclick="selectMode(12)">12 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(13)">13 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(14)">14 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(15)">15 números<br><small>16 combinaciones</small></button>
+        </div>
+
+        <div id="inputSection">
+            <h3 id="inputTitle"></h3>
+            <div id="numberGrid"></div>
+            <button id="generateBtn" onclick="generate()">Generar Combinaciones</button>
+        </div>
+
+        <div id="loading">Procesando...</div>
+
+        <div id="results">
+            <h3>Generación Completada</h3>
+            <p id="count"></p>
+            <button class="export-btn" onclick="exportTXT()">Descargar TXT</button>
+            <button class="export-btn" onclick="reset()">Nueva Generación</button>
+            <div id="combinations"></div>
+        </div>
+    </div>
+
+    <script src="./main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js');
+        }
+    </script>
+</body>
+</html>
