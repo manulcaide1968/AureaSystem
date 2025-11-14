@@ -4,710 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurea System</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#D4AF37">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000;
-            min-height: 100vh;
-            color: #fff;
-        }
-        
-        .header {
-            background: linear-gradient(to bottom, #000, #1a1a1a, #000);
-            border-bottom: 2px solid #d4af37;
-            padding: 2rem;
-            text-center;
-        }
-        
-        .logo-container {
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #c5a028 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-        
-        .logo-inner {
-            width: 92px;
-            height: 92px;
-            background: #000;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .logo svg {
-            width: 60px;
-            height: 60px;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            background: linear-gradient(to right, #f4d03f, #d4af37, #f4d03f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        
-        .subtitle {
-            color: #f4d03f;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .feature-card {
-            background: linear-gradient(135deg, #1a1a1a, #000);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .feature-text {
-            color: #f4d03f;
-            font-weight: 600;
-        }
-        
-        .mode-selector {
-            background: linear-gradient(135deg, #1a1a1a, #000);
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .mode-title {
-            color: #d4af37;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .mode-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-        
-        .mode-btn {
-            background: #1a1a1a;
-            border: 3px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-        
-        .mode-btn:hover {
-            border-color: #d4af37;
-            transform: scale(1.05);
-        }
-        
-        .mode-btn.active {
-            background: linear-gradient(135deg, #f4d03f, #d4af37);
-            border-color: #f4d03f;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
-        }
-        
-        .mode-btn.active .mode-size,
-        .mode-btn.active .mode-desc,
-        .mode-btn.active .mode-combos {
-            color: #000;
-        }
-        
-        .mode-size {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #d4af37;
-        }
-        
-        .mode-desc {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        .mode-combos {
-            color: #f4d03f;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
-        
-        .input-section {
-            display: none;
-            background: linear-gradient(135deg, #1a1a1a, #000);
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .input-section.active {
-            display: block;
-        }
-        
-        .input-title {
-            color: #d4af37;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
-        
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .number-input {
-            background: #000;
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            color: #f4d03f;
-            padding: 1rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        
-        .number-input:focus {
-            outline: none;
-            border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-        }
-        
-        .error-message {
-            background: rgba(220, 53, 69, 0.2);
-            border-left: 4px solid #dc3545;
-            color: #ff6b6b;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-        
-        .generate-btn {
-            width: 100%;
-            background: linear-gradient(to right, #f4d03f, #d4af37, #f4d03f);
-            color: #000;
-            border: none;
-            padding: 1.5rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
-        }
-        
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 3rem;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(212, 175, 55, 0.3);
-            border-top: 4px solid #d4af37;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .results {
-            display: none;
-        }
-        
-        .results-header {
-            background: linear-gradient(135deg, #1a1a1a, #000);
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .results-title {
-            color: #d4af37;
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        
-        .results-count {
-            color: #f4d03f;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .export-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .export-btn {
-            background: #d4af37;
-            color: #000;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .export-btn:hover {
-            background: #f4d03f;
-            transform: scale(1.05);
-        }
-        
-        .combinations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-        
-        .combination-card {
-            background: linear-gradient(135deg, #1a1a1a, #000);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-        
-        .combination-card:hover {
-            border-color: rgba(212, 175, 55, 0.7);
-        }
-        
-        .combination-number {
-            color: #d4af37;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        
-        .combination-balls {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .ball {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f4d03f, #d4af37, #c5a028);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            margin-top: 3rem;
-            color: rgba(212, 175, 55, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .number-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #000; color: #fff; min-height: 100vh; }
+        .header { text-align: center; padding: 2rem; background: linear-gradient(#000, #1a1a1a); border-bottom: 2px solid #d4af37; }
+        h1 { font-size: 2.8rem; background: linear-gradient(to right, #f4d03f, #d4af37); -webkit-background-clip: text; color: transparent; }
+        .subtitle { color: #f4d03f; font-size: 1.1rem; letter-spacing: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .mode-btn { background: #1a1a1a; border: 2px solid #d4af37; color: #d4af37; padding: 1.5rem; border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .mode-btn:hover { background: #d4af37; color: #000; transform: translateY(-3px); }
+        .mode-btn.active { background: #f4d03f; color: #000; font-weight: bold; }
+        #inputSection { display: none; background: #1a1a1a; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; }
+        #inputTitle { color: #d4af37; text-align: center; margin-bottom: 1rem; }
+        #numberGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 0.5rem; }
+        .num-input { background: #000; border: 1px solid #d4af37; color: #fff; text-align: center; padding: 0.8rem; border-radius: 8px; font-size: 1.1rem; type: text; }
+        .num-input:focus { outline: none; box-shadow: 0 0 10px #d4af37; }
+        #generateBtn { background: #f4d03f; color: #000; border: none; padding: 1rem 2rem; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 1.5rem auto; width: fit-content; }
+        #generateBtn:hover { transform: scale(1.05); }
+        #loading { text-align: center; display: none; color: #d4af37; margin: 1rem 0; }
+        #results { display: none; }
+        .result-card { background: #1a1a1a; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+        .balls { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+        .ball { background: #f4d03f; color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .export-btn { background: #d4af37; color: #000; border: none; padding: 0.5rem 1rem; margin: 0.5rem; border-radius: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-inner">
-                    <svg viewBox="0 0 100 100">
-                        <defs>
-                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f4d03f" />
-                                <stop offset="50%" style="stop-color:#d4af37" />
-                                <stop offset="100%" style="stop-color:#c5a028" />
-                            </linearGradient>
-                        </defs>
-                        <polygon points="50,20 80,70 20,70" fill="none" stroke="url(#goldGrad)" stroke-width="4"/>
-                        <circle cx="50" cy="50" r="18" fill="none" stroke="url(#goldGrad)" stroke-width="4"/>
-                        <text x="50" y="58" font-family="Arial" font-size="26" font-weight="bold" fill="url(#goldGrad)" text-anchor="middle">A</text>
-                    </svg>
-                </div>
-            </div>
-        </div>
         <h1>AUREA SYSTEM</h1>
         <p class="subtitle">Optimización Matemática Avanzada</p>
     </div>
-
     <div class="container">
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">✨</div>
-                <div class="feature-text">Algoritmos Avanzados</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <div class="feature-text">Generación Instantánea</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <div class="feature-text">100% Privado</div>
-            </div>
+        <div class="modes">
+            <button class="mode-btn" onclick="selectMode(12)">12 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(13)">13 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(14)">14 números<br><small>16 combinaciones</small></button>
+            <button class="mode-btn" onclick="selectMode(15)">15 números<br><small>16 combinaciones</small></button>
         </div>
 
-        <div class="mode-selector">
-            <div class="mode-title">📊 Selecciona tu Sistema</div>
-            <div class="mode-buttons">
-                <div class="mode-btn" onclick="selectMode(12)">
-                    <div class="mode-size">12</div>
-                    <div class="mode-desc">números</div>
-                    <div class="mode-combos">16 combos</div>
-                </div>
-                <div class="mode-btn" onclick="selectMode(13)">
-                    <div class="mode-size">13</div>
-                    <div class="mode-desc">números</div>
-                    <div class="mode-combos">16 combos</div>
-                </div>
-                <div class="mode-btn" onclick="selectMode(14)">
-                    <div class="mode-size">14</div>
-                    <div class="mode-desc">números</div>
-                    <div class="mode-combos">16 combos</div>
-                </div>
-                <div class="mode-btn" onclick="selectMode(15)">
-                    <div class="mode-size">15</div>
-                    <div class="mode-desc">números</div>
-                    <div class="mode-combos">16 combos</div>
-                </div>
-            </div>
+        <div id="inputSection">
+            <h3 id="inputTitle"></h3>
+            <div id="numberGrid"></div>
+            <button id="generateBtn" onclick="generate()">Generar Combinaciones</button>
         </div>
 
-        <div class="input-section" id="inputSection">
-            <div class="input-title" id="inputTitle">Introduce números (1-49)</div>
-            <div class="number-grid" id="numberGrid"></div>
-            <div class="error-message" id="errorMessage"></div>
-            <button class="generate-btn" onclick="generateCombinations()">
-                ✨ Generar Combinaciones
-            </button>
-        </div>
+        <div id="loading">Procesando...</div>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p style="color: #d4af37;">Procesando algoritmo...</p>
+        <div id="results">
+            <h3>Generación Completada</h3>
+            <p id="count"></p>
+            <button class="export-btn" onclick="exportTXT()">Descargar TXT</button>
+            <button class="export-btn" onclick="reset()">Nueva Generación</button>
+            <div id="combinations"></div>
         </div>
-
-        <div class="results" id="results">
-            <div class="results-header">
-                <div class="results-title">✅ Generación Completada</div>
-                <div class="results-count" id="resultsCount"></div>
-                <div class="export-buttons">
-                    <button class="export-btn" onclick="exportText()">📄 Descargar TXT</button>
-                    <button class="export-btn" onclick="newGeneration()">🔄 Nueva Generación</button>
-                </div>
-            </div>
-            <div class="combinations-grid" id="combinationsGrid"></div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>Aurea System © 2025 - Todos los derechos reservados</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Optimización matemática avanzada</p>
     </div>
 
     <script>
-        let currentMode = null;
-        let allCombinations = [];
+        let currentMode = 0;
+        let inputs = [];
+        let combinations = [];
 
-        function selectMode(size) {
-            currentMode = size;
-            
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.mode-btn').classList.add('active');
-            
-            const inputSection = document.getElementById('inputSection');
-            inputSection.classList.add('active');
-            
-            document.getElementById('inputTitle').textContent = `Introduce ${size} números (1-49)`;
-            
+        function selectMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('inputTitle').textContent = `Introduce ${mode} números (1-49)`;
             const grid = document.getElementById('numberGrid');
             grid.innerHTML = '';
-            for (let i = 0; i < size; i++) {
+            inputs = [];
+            for (let i = 0; i < mode; i++) {
                 const input = document.createElement('input');
-                input.type = 'number';
-                input.className = 'number-input';
-                input.min = '1';
-                input.max = '49';
-                input.placeholder = '-';
-                input.id = `num${i}`;
-                grid.appendChild(input);
-            }
-            
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
-        }
-
-        // Algoritmos piramidales
-        function pyramid12(nums) {
-            const g10_1 = [nums[0], nums[1], nums[2], nums[3], nums[4], nums[5], nums[6], nums[8], nums[10], nums[11]];
-            const g10_2 = [nums[0], nums[2], nums[3], nums[5], nums[6], nums[7], nums[8], nums[9], nums[10], nums[11]];
-            const groups8 = [
-                [g10_1[0], g10_1[1], g10_1[2], g10_1[4], g10_1[5], g10_1[6], g10_1[7], g10_1[9]],
-                [g10_1[0], g10_1[2], g10_1[3], g10_1[4], g10_1[5], g10_1[6], g10_1[8], g10_1[9]],
-                [g10_1[1], g10_1[2], g10_1[3], g10_1[4], g10_1[6], g10_1[7], g10_1[8], g10_1[9]],
-                [g10_1[0], g10_1[1], g10_1[3], g10_1[4], g10_1[5], g10_1[6], g10_1[7], g10_1[8]],
-                [g10_2[0], g10_2[1], g10_2[2], g10_2[4], g10_2[5], g10_2[6], g10_2[7], g10_2[9]],
-                [g10_2[0], g10_2[2], g10_2[3], g10_2[4], g10_2[5], g10_2[6], g10_2[8], g10_2[9]],
-                [g10_2[1], g10_2[2], g10_2[3], g10_2[4], g10_2[6], g10_2[7], g10_2[8], g10_2[9]],
-                [g10_2[0], g10_2[1], g10_2[3], g10_2[4], g10_2[5], g10_2[6], g10_2[7], g10_2[8]]
-            ];
-            const final = [];
-            groups8.forEach(g => {
-                final.push([g[0], g[2], g[3], g[4], g[6], g[7]]);
-                final.push([g[1], g[3], g[4], g[5], g[6], g[7]]);
-            });
-            return final;
-        }
-
-        function pyramid13(nums) {
-            const g11_1 = [nums[0], nums[1], nums[2], nums[3], nums[4], nums[5], nums[6], nums[8], nums[9], nums[10], nums[11]];
-            const g11_2 = [nums[0], nums[2], nums[3], nums[5], nums[6], nums[7], nums[8], nums[9], nums[10], nums[11], nums[12]];
-            const groups8 = [
-                [g11_1[0], g11_1[1], g11_1[2], g11_1[4], g11_1[5], g11_1[7], g11_1[9], g11_1[10]],
-                [g11_1[0], g11_1[2], g11_1[3], g11_1[4], g11_1[5], g11_1[6], g11_1[8], g11_1[9]],
-                [g11_1[1], g11_1[2], g11_1[3], g11_1[4], g11_1[6], g11_1[7], g11_1[8], g11_1[9]],
-                [g11_1[0], g11_1[1], g11_1[3], g11_1[5], g11_1[6], g11_1[7], g11_1[8], g11_1[10]],
-                [g11_2[0], g11_2[1], g11_2[2], g11_2[4], g11_2[5], g11_2[7], g11_2[9], g11_2[10]],
-                [g11_2[0], g11_2[2], g11_2[3], g11_2[4], g11_2[5], g11_2[6], g11_2[8], g11_2[9]],
-                [g11_2[1], g11_2[2], g11_2[3], g11_2[4], g11_2[6], g11_2[7], g11_2[8], g11_2[9]],
-                [g11_2[0], g11_2[1], g11_2[3], g11_2[5], g11_2[6], g11_2[7], g11_2[8], g11_2[10]]
-            ];
-            const final = [];
-            groups8.forEach(g => {
-                final.push([g[0], g[2], g[3], g[4], g[6], g[7]]);
-                final.push([g[1], g[3], g[4], g[5], g[6], g[7]]);
-            });
-            return final;
-        }
-
-        function pyramid14(nums) {
-            const g12_1 = [nums[0], nums[1], nums[2], nums[3], nums[4], nums[5], nums[6], nums[8], nums[9], nums[10], nums[11], nums[13]];
-            const g12_2 = [nums[0], nums[2], nums[3], nums[5], nums[6], nums[7], nums[8], nums[9], nums[10], nums[11], nums[12], nums[13]];
-            const groups9 = [
-                [g12_1[0], g12_1[1], g12_1[2], g12_1[4], g12_1[5], g12_1[7], g12_1[9], g12_1[10], g12_1[11]],
-                [g12_1[0], g12_1[2], g12_1[3], g12_1[4], g12_1[5], g12_1[6], g12_1[8], g12_1[9], g12_1[11]],
-                [g12_1[1], g12_1[2], g12_1[3], g12_1[4], g12_1[6], g12_1[7], g12_1[8], g12_1[9], g12_1[10]],
-                [g12_1[0], g12_1[1], g12_1[3], g12_1[5], g12_1[6], g12_1[7], g12_1[8], g12_1[10], g12_1[11]],
-                [g12_2[0], g12_2[1], g12_2[2], g12_2[4], g12_2[5], g12_2[7], g12_2[9], g12_2[10], g12_2[11]],
-                [g12_2[0], g12_2[2], g12_2[3], g12_2[4], g12_2[5], g12_2[6], g12_2[8], g12_2[9], g12_2[11]],
-                [g12_2[1], g12_2[2], g12_2[3], g12_2[4], g12_2[6], g12_2[7], g12_2[8], g12_2[9], g12_2[10]],
-                [g12_2[0], g12_2[1], g12_2[3], g12_2[5], g12_2[6], g12_2[7], g12_2[8], g12_2[10], g12_2[11]]
-            ];
-            const final = [];
-            groups9.forEach(g => {
-                final.push([g[0], g[2], g[4], g[6], g[7], g[8]]);
-                final.push([g[1], g[3], g[5], g[6], g[7], g[8]]);
-            });
-            return final;
-        }
-
-        function pyramid15(nums) {
-            const g12_1 = [nums[0], nums[1], nums[2], nums[3], nums[4], nums[5], nums[6], nums[8], nums[9], nums[11], nums[12], nums[14]];
-            const g12_2 = [nums[0], nums[2], nums[3], nums[5], nums[6], nums[7], nums[8], nums[9], nums[10], nums[11], nums[13], nums[14]];
-            const groups9 = [
-                [g12_1[0], g12_1[1], g12_1[2], g12_1[4], g12_1[5], g12_1[7], g12_1[9], g12_1[10], g12_1[11]],
-                [g12_1[0], g12_1[2], g12_1[3], g12_1[4], g12_1[5], g12_1[6], g12_1[8], g12_1[9], g12_1[11]],
-                [g12_1[1], g12_1[2], g12_1[3], g12_1[4], g12_1[6], g12_1[7], g12_1[8], g12_1[9], g12_1[10]],
-                [g12_1[0], g12_1[1], g12_1[3], g12_1[5], g12_1[6], g12_1[7], g12_1[8], g12_1[10], g12_1[11]],
-                [g12_2[0], g12_2[1], g12_2[2], g12_2[4], g12_2[5], g12_2[7], g12_2[9], g12_2[10], g12_2[11]],
-                [g12_2[0], g12_2[2], g12_2[3], g12_2[4], g12_2[5], g12_2[6], g12_2[8], g12_2[9], g12_2[11]],
-                [g12_2[1], g12_2[2], g12_2[3], g12_2[4], g12_2[6], g12_2[7], g12_2[8], g12_2[9], g12_2[10]],
-                [g12_2[0], g12_2[1], g12_2[3], g12_2[5], g12_2[6], g12_2[7], g12_2[8], g12_2[10], g12_2[11]]
-            ];
-            const final = [];
-            groups9.forEach(g => {
-                final.push([g[0], g[2], g[4], g[6], g[7], g[8]]);
-                final.push([g[1], g[3], g[5], g[6], g[7], g[8]]);
-            });
-            return final;
-        }
-
-        function generateCombinations() {
-            if (!currentMode) {
-                showError('Selecciona primero un sistema');
-                return;
-            }
-
-            const numbers = [];
-            for (let i = 0; i < currentMode; i++) {
-                const val = parseInt(document.getElementById(`num${i}`).value);
-                if (!val || val < 1 || val > 49) {
-                    showError('Todos los números deben estar entre 1 y 49');
-                    return;
-                }
-                if (numbers.includes(val)) {
-                    showError(`Número ${val} está repetido`);
-                    return;
-                }
-                numbers.push(val);
-            }
-
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
-
-            setTimeout(() => {
-                let combinations;
-                switch(currentMode) {
-                    case 12: combinations = pyramid12(numbers); break;
-                    case 13: combinations = pyramid13(numbers); break;
-                    case 14: combinations = pyramid14(numbers); break;
-                    case 15: combinations = pyramid15(numbers); break;
-                }
-
-                allCombinations = combinations;
-                displayResults(combinations);
-
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('results').style.display = 'block';
-            }, 1200);
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = '⚠️ ' + message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 4000);
-        }
-
-        function displayResults(combinations) {
-            document.getElementById('resultsCount').textContent = 
-                `${combinations.length} combinaciones optimizadas generadas`;
-            
-            const grid = document.getElementById('combinationsGrid');
-            grid.innerHTML = '';
-            
-            combinations.forEach((combo, index) => {
-                const sorted = [...combo].sort((a, b) => a - b);
-                
-                const card = document.createElement('div');
-                card.className = 'combination-card';
-                
-                const number = document.createElement('div');
-                number.className = 'combination-number';
-                number.textContent = `Apuesta ${index + 1}`;
-                
-                const balls = document.createElement('div');
-                balls.className = 'combination-balls';
-                
-                sorted.forEach(num => {
-                    const ball = document.createElement('div');
-                    ball.className = 'ball';
-                    ball.textContent = num;
-                    balls.appendChild(ball);
+                input.type = 'text';
+                input.inputMode = 'numeric';
+                input.maxLength = 2;
+                input.className = 'num-input';
+                input.placeholder = '';
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '').slice(0,2);
+                    if (this.value && (this.value < 1 || this.value > 49)) {
+                        this.style.borderColor = '#f44336';
+                    } else {
+                        this.style.borderColor = '#d4af37';
+                    }
                 });
-                
-                card.appendChild(number);
-                card.appendChild(balls);
-                grid.appendChild(card);
+                grid.appendChild(input);
+                inputs.push(input);
+            }
+        }
+
+        function generate() {
+            const nums = inputs.map(i => parseInt(i.value)).filter(n => n >= 1 && n <= 49);
+            if (nums.length !== currentMode) return alert('Completa todos los números (1-49)');
+            if (new Set(nums).size !== nums.length) return alert('Sin repetidos');
+
+            document.getElementById('loading').style.display = 'block';
+            setTimeout(() => {
+                combinations = pyramid[currentMode](nums);
+                showResults();
+                document.getElementById('loading').style.display = 'none';
+            }, 500);
+        }
+
+        function showResults() {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('count').textContent = `${combinations.length} combinaciones generadas`;
+            const container = document.getElementById('combinations');
+            container.innerHTML = '';
+            combinations.forEach((combo, i) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `<strong>Apuesta ${i+1}</strong><div class="balls">${combo.sort((a,b)=>a-b).map(n => `<div class="ball">${n}</div>`).join('')}</div>`;
+                container.appendChild(card);
             });
         }
 
-        function exportText() {
-            let text = '═══════════════════════════════\n';
-            text += '   AUREA SYSTEM\n';
-            text += '   Combinaciones Generadas\n';
-            text += '═══════════════════════════════\n\n';
-            text += `Sistema: ${currentMode} números → ${allCombinations.length} combinaciones\n\n`;
-            
-            allCombinations.forEach((combo, i) => {
-                const sorted = [...combo].sort((a, b) => a - b);
-                text += `${String(i + 1).padStart(2, '0')}│ ${sorted.join(' - ')}\n`;
+        function exportTXT() {
+            let txt = `AUREA SYSTEM - ${currentMode} números\n\n`;
+            combinations.forEach((c, i) => {
+                txt += `${String(i+1).padStart(2)}: ${c.sort((a,b)=>a-b).join(' - ')}\n`;
             });
-            
-            text += '\n═══════════════════════════════\n';
-            text += 'Aurea System © 2025\n';
-            
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([txt], {type: 'text/plain'});
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `aurea_${currentMode}nums.txt`;
+            a.href = URL.createObjectURL(blob);
+            a.download = `aurea_${currentMode}.txt`;
             a.click();
-            URL.revokeObjectURL(url);
         }
 
-        function newGeneration() {
+        function reset() {
+            document.getElementById('inputSection').style.display = 'none';
             document.getElementById('results').style.display = 'none';
-            document.getElementById('inputSection').classList.remove('active');
-            currentMode = null;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            currentMode = 0;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('numberGrid').innerHTML = '';
         }
+
+        const pyramid = {
+            12: nums => {
+                const g = nums;
+                return [
+                    [g[0],g[2],g[3],g[5],g[7],g[8]], [g[1],g[3],g[5],g[6],g[7],g[9]],
+                    [g[0],g[2],g[4],g[6],g[8],g[10]], [g[1],g[3],g[5],g[7],g[9],g[11]],
+                    [g[0],g[2],g[4],g[6],g[8],g[9]], [g[1],g[3],g[5],g[7],g[10],g[11]],
+                    [g[0],g[2],g[3],g[5],g[8],g[10]], [g[1],g[4],g[6],g[7],g[9],g[11]],
+                    [g[0],g[3],g[4],g[6],g[9],g[10]], [g[1],g[2],g[5],g[7],g[8],g[11]],
+                    [g[0],g[2],g[5],g[6],g[9],g[11]], [g[1],g[3],g[4],g[7],g[8],g[10]],
+                    [g[0],g[4],g[5],g[7],g[10],g[11]], [g[1],g[2],g[3],g[6],g[8],g[9]],
+                    [g[0],g[1],g[4],g[6],g[9],g[11]], [g[2],g[3],g[5],g[7],g[8],g[10]]
+                ];
+            },
+            13: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(1))),
+            14: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(2))),
+            15: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(3)))
+        };
     </script>
 </body>
 </html>
