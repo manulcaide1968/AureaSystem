@@ -13,7 +13,7 @@ function selectMode(mode) {
     inputs = [];
     for (let i = 0; i < mode; i++) {
         const input = document.createElement('input');
-        <input type="number" min="1" max="49" class="num-input" placeholder="">
+        input type="number" min="1" max="49" class="num-input" placeholder=""
         input.min = 1;
         input.max = 49;
         input.className = 'num-input';
@@ -87,3 +87,4 @@ const pyramid = {
     15: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(3)))
 
 };
+
