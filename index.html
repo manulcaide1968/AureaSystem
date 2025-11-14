@@ -20,7 +20,7 @@
         #inputSection { display: none; background: #1a1a1a; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; }
         #inputTitle { color: #d4af37; text-align: center; margin-bottom: 1rem; }
         #numberGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 0.5rem; }
-        .num-input { background: #000; border: 1px solid #d4af37; color: #fff; text-align: center; padding: 0.8rem; border-radius: 8px; font-size: 1.1rem; }
+        .num-input { background: #000; border: 1px solid #d4af37; color: #fff; text-align: center; padding: 0.8rem; border-radius: 8px; font-size: 1.1rem; type: text; }
         .num-input:focus { outline: none; box-shadow: 0 0 10px #d4af37; }
         #generateBtn { background: #f4d03f; color: #000; border: none; padding: 1rem 2rem; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; display: block; margin: 1.5rem auto; width: fit-content; }
         #generateBtn:hover { transform: scale(1.05); }
@@ -62,11 +62,104 @@
         </div>
     </div>
 
-    <script src="./main.js"></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js');
+        let currentMode = 0;
+        let inputs = [];
+        let combinations = [];
+
+        function selectMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('inputTitle').textContent = `Introduce ${mode} números (1-49)`;
+            const grid = document.getElementById('numberGrid');
+            grid.innerHTML = '';
+            inputs = [];
+            for (let i = 0; i < mode; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.inputMode = 'numeric';
+                input.maxLength = 2;
+                input.className = 'num-input';
+                input.placeholder = '';
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '').slice(0,2);
+                    if (this.value && (this.value < 1 || this.value > 49)) {
+                        this.style.borderColor = '#f44336';
+                    } else {
+                        this.style.borderColor = '#d4af37';
+                    }
+                });
+                grid.appendChild(input);
+                inputs.push(input);
+            }
         }
+
+        function generate() {
+            const nums = inputs.map(i => parseInt(i.value)).filter(n => n >= 1 && n <= 49);
+            if (nums.length !== currentMode) return alert('Completa todos los números (1-49)');
+            if (new Set(nums).size !== nums.length) return alert('Sin repetidos');
+
+            document.getElementById('loading').style.display = 'block';
+            setTimeout(() => {
+                combinations = pyramid[currentMode](nums);
+                showResults();
+                document.getElementById('loading').style.display = 'none';
+            }, 500);
+        }
+
+        function showResults() {
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('count').textContent = `${combinations.length} combinaciones generadas`;
+            const container = document.getElementById('combinations');
+            container.innerHTML = '';
+            combinations.forEach((combo, i) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `<strong>Apuesta ${i+1}</strong><div class="balls">${combo.sort((a,b)=>a-b).map(n => `<div class="ball">${n}</div>`).join('')}</div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function exportTXT() {
+            let txt = `AUREA SYSTEM - ${currentMode} números\n\n`;
+            combinations.forEach((c, i) => {
+                txt += `${String(i+1).padStart(2)}: ${c.sort((a,b)=>a-b).join(' - ')}\n`;
+            });
+            const blob = new Blob([txt], {type: 'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `aurea_${currentMode}.txt`;
+            a.click();
+        }
+
+        function reset() {
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('results').style.display = 'none';
+            currentMode = 0;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('numberGrid').innerHTML = '';
+        }
+
+        const pyramid = {
+            12: nums => {
+                const g = nums;
+                return [
+                    [g[0],g[2],g[3],g[5],g[7],g[8]], [g[1],g[3],g[5],g[6],g[7],g[9]],
+                    [g[0],g[2],g[4],g[6],g[8],g[10]], [g[1],g[3],g[5],g[7],g[9],g[11]],
+                    [g[0],g[2],g[4],g[6],g[8],g[9]], [g[1],g[3],g[5],g[7],g[10],g[11]],
+                    [g[0],g[2],g[3],g[5],g[8],g[10]], [g[1],g[4],g[6],g[7],g[9],g[11]],
+                    [g[0],g[3],g[4],g[6],g[9],g[10]], [g[1],g[2],g[5],g[7],g[8],g[11]],
+                    [g[0],g[2],g[5],g[6],g[9],g[11]], [g[1],g[3],g[4],g[7],g[8],g[10]],
+                    [g[0],g[4],g[5],g[7],g[10],g[11]], [g[1],g[2],g[3],g[6],g[8],g[9]],
+                    [g[0],g[1],g[4],g[6],g[9],g[11]], [g[2],g[3],g[5],g[7],g[8],g[10]]
+                ];
+            },
+            13: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(1))),
+            14: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(2))),
+            15: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(3)))
+        };
     </script>
 </body>
 </html>
