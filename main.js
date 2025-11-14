@@ -13,11 +13,21 @@ function selectMode(mode) {
     inputs = [];
     for (let i = 0; i < mode; i++) {
         const input = document.createElement('input');
-        input type="number" min="1" max="49" class="num-input" placeholder=""
-        input.min = 1;
-        input.max = 49;
-        input.className = 'num-input';
-        input.placeholder = '-';
+input.type = 'text';  // ← TEXT, NO NUMBER
+input.className = 'num-input';
+input.placeholder = '';
+input.pattern = '[0-9]*';
+input.inputmode = 'numeric';
+input.maxLength = 2;
+input.style.textAlign = 'center';
+input.addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '').slice(0,2);
+    if (this.value && (this.value < 1 || this.value > 49)) {
+        this.style.borderColor = '#f44336';
+    } else {
+        this.style.borderColor = '#d4af37';
+    }
+});
         grid.appendChild(input);
         inputs.push(input);
     }
@@ -87,4 +97,5 @@ const pyramid = {
     15: nums => pyramid[12](nums.slice(0,12)).concat(pyramid[12](nums.slice(3)))
 
 };
+
 
